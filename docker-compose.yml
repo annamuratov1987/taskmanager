@@ -1,0 +1,24 @@
+services:
+  db:
+    image: mysql
+    restart: always
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+  taskmanager:
+    build: .
+    container_name: taskmanager
+    ports:
+    - "127.0.0.1:8001:80"
+    volumes:
+      - ./:/var/www/html/
+volumes:
+ dbdata:
