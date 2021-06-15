@@ -16,8 +16,12 @@ class TaskController extends Controller
             $task = new Task($_POST['user'], $_POST['email'], $_POST['text']);
 
             if ($task->validateData()){
-                $task->save();
-                header('Location: /?success=Задача успешно создал.');
+                if ($task->save()){
+                    $header = 'Location: /?success=Задача успешно создал.';
+                }else{
+                    $header = 'Location: /?error=Ошибка создания задача!!!';
+                }
+                header($header);
             }else{
                 header('Location: /?error=' . $task->validateDataError);
             }

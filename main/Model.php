@@ -23,37 +23,45 @@ abstract class Model
         return null;
     }
 
-    protected function insert()
+    protected function insert():bool
     {
         $db = Database::getInstans();
         $sql = "INSERT INTO " . $this->getTableName() . " (";
-        $values = "";
+        $values = [];
 
         foreach ($this->fields as $key => $field) {
             $sql .= $key . ", ";
-            $values .= $db->quote($field) . ", ";
+            $values[] = htmlspecialchars($field);
         }
-
         $sql = substr_replace($sql, '', -2);
-        $values = substr_replace($values, '', -2);
-        $sql .= ") VALUES (" . $values . ");";
+        $sql .= ") VALUES (";
 
-        return $db->exec($sql);
+        for ($i=0; $i<count($values); $i++){
+            $sql .= "?, ";
+        }
+        $sql = substr_replace($sql, '', -2);
+        $sql .= ")";
+
+        $stmt = $db->prepare($sql);
+        return $stmt->execute($values);
     }
 
-    protected function update()
+    protected function update():bool
     {
         $db = Database::getInstans();
         $sql = "UPDATE " . $this->getTableName() . " SET ";
+        $values = [];
 
         foreach ($this->fields as $key => $field) {
-            $sql .= $key . " = " . $db->quote($field) . ", ";
+            $sql .= $key . " = ?, ";
+            $values[] = htmlspecialchars($field);
         }
 
         $sql = substr_replace($sql, '', -2);
-        $sql .= " WHERE id = " . $db->quote($this->fields["id"]) . ";";
+        $sql .= " WHERE id = " . $this->fields["id"] . ";";
 
-        return $db->exec($sql);
+        $stmt = $db->prepare($sql);
+        return $stmt->execute($values);
     }
 
     public function save()

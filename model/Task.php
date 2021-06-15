@@ -35,10 +35,15 @@ class Task extends Model
             return false;
         }
 
+        if(!preg_match("/^[a-zA-Z0-9_\-.]+@[a-z]/", $this->email)){
+            $this->validateDataError = "Вводил неверный email.";
+            return false;
+        }
+
         return true;
     }
 
-    public static function getByPage(int $page, int $countInPage)
+    public static function getByPage(int $page, int $countInPage):array
     {
         $db = Database::getInstans();
         $sql = "SELECT * FROM " . static::getTableName() . " LIMIT " . $countInPage . " OFFSET " . ($countInPage * ($page - 1));
