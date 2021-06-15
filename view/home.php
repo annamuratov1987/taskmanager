@@ -47,4 +47,32 @@
             </div>
         <?endforeach;?>
     </div>
+    <div class="col-12">
+        <nav class="p-2">
+            <ul class="pagination justify-content-center">
+                <?if($data['page']!=1):?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?=$data['page']-1?>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                <?endif;?>
+                <?
+                $endPage = min([$data['page_count'], $data['page']+2]);
+                $beginPage = max([1, $endPage -2]);
+                ?>
+                <?for($i=$beginPage; $i<=$endPage; $i++):?>
+                    <li class="page-item  <?=($data['page']==$i)?'active':''?>"><a class="page-link" href="?page=<?=$i?>"><?=$i?></a></li>
+                <?endfor;?>
+                <?if($data['page']!=$data['page_count']):?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?=$data['page']+1?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                <?endif;?>
+            </ul>
+        </nav>
+    </div>
 </div>
+

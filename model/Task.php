@@ -38,10 +38,10 @@ class Task extends Model
         return true;
     }
 
-    public static function getAll()
+    public static function getByPage(int $page, int $countInPage)
     {
         $db = Database::getInstans();
-        $sql = "SELECT * FROM " . static::getTableName() . ";";
+        $sql = "SELECT * FROM " . static::getTableName() . " LIMIT " . $countInPage . " OFFSET " . ($countInPage * ($page - 1));
 
         $tasks = [];
         foreach ($db->query($sql) as $value){
@@ -55,4 +55,11 @@ class Task extends Model
         return $tasks;
     }
 
+    public static function getCount():int
+    {
+        $db = Database::getInstans();
+        $stmt = $db->query("SELECT COUNT(*) FROM " . static::getTableName() . ";");
+        $value = $stmt->fetch();
+        return $value[0];
+    }
 }
