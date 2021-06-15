@@ -43,10 +43,13 @@ class Task extends Model
         return true;
     }
 
-    public static function getByPage(int $page, int $countInPage):array
+    public static function getByPage(int $page, int $countInPage, string $sortBy = "created_at", string $sortType = 'desc'):array
     {
+        if ($sortBy != "user" && $sortBy != "email" && $sortBy != "status" && $sortBy != "created_at") $sortBy = "created_at";
+        if ($sortType != "asc" && $sortType != "desc") $sortType = "desc";
+
         $db = Database::getInstans();
-        $sql = "SELECT * FROM " . static::getTableName() . " LIMIT " . $countInPage . " OFFSET " . ($countInPage * ($page - 1));
+        $sql = "SELECT * FROM " . static::getTableName() . " ORDER BY " . $sortBy . " " . $sortType . " LIMIT " . $countInPage . " OFFSET " . ($countInPage * ($page - 1));
 
         $tasks = [];
         foreach ($db->query($sql) as $value){

@@ -14,7 +14,7 @@
 <div class="container header p-3">
     <div class="row">
         <div class="col-6">
-            <h1>Задачник</h1>
+            <a href="/"><h1>Задачник</h1></a>
         </div>
         <div class="col-6">
             <a class="btn btn-light float-end" href="/login" role="button">Вход</a>
