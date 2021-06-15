@@ -58,10 +58,10 @@ abstract class Model
 
     public function save()
     {
-        if (is_null($this->fields['id'])){
-            return $this->insert();
-        }else{
+        if (isset($this->fields['id']) && !is_null($this->fields['id'])){
             return $this->update();
+        }else{
+            return $this->insert();
         }
     }
 }

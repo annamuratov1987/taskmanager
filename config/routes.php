@@ -1,5 +1,5 @@
 <?php
 return [
-    "/" => ["controller\Home","index"],
-    "/" => ["controller\Task","create"]
+    "/" => ["controller\HomeController","index"],
+    "/task/create" => ["controller\TaskController","create"]
 ];

@@ -1,6 +1,19 @@
 <?php
 /** @var TYPE_NAME $data */
 ?>
+
+<?if(isset($data['success'])):?>
+    <div class="alert alert-success" role="alert">
+        <?=$data['success']?>
+    </div>
+<?endif;?>
+
+<?if(isset($data['error'])):?>
+    <div class="alert alert-danger" role="alert">
+        <?=$data['error']?>
+    </div>
+<?endif;?>
+
 <div class="row">
     <div class="col-12">
         <h5>Создать задача</h5>

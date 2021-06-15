@@ -9,6 +9,7 @@ use main\Model;
 
 class Task extends Model
 {
+    public string $validateDataError = "";
 
     static function getTableName(): string
     {
@@ -23,6 +24,19 @@ class Task extends Model
         $this->status = 'active';
     }
 
+    public function validateData(): bool
+    {
+        if (empty($this->fields['user'])
+            || empty($this->fields['email'])
+            || empty($this->fields['text'])
+            || empty($this->fields['status'])
+        ){
+            $this->validateDataError = "Не заполнено все необходимые поля.";
+            return false;
+        }
+
+        return true;
+    }
 
     public static function getAll()
     {
