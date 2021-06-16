@@ -1,3 +1,7 @@
+<?php
+/** @var TYPE_NAME $data */
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,7 +21,12 @@
             <a href="/"><h1>Задачник</h1></a>
         </div>
         <div class="col-6">
-            <a class="btn btn-light float-end" href="/login" role="button">Вход</a>
+            <?if(is_null($data['user'])):?>
+                <a class="btn btn-light float-end" href="/login" role="button">Вход</a>
+            <?else:?>
+                <span><?=$data['user']->username?></span>
+                <a class="btn btn-light float-end" href="/logout" role="button">Выход</a>
+            <?endif;?>
         </div>
     </div>
 </div>
