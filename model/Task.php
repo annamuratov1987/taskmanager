@@ -16,12 +16,13 @@ class Task extends Model
         return "tasks";
     }
 
-    public function __construct(string $user, string $email, string $text)
+    public function __construct(string $user = null, string $email = null, string $text = null)
     {
         $this->user = $user;
         $this->email = $email;
         $this->text = $text;
         $this->status = 'active';
+        $this->update_by_admin = false;
     }
 
     public function validateData(): bool
@@ -57,6 +58,7 @@ class Task extends Model
             $task->id = $value['id'];
             $task->status = $value['status'];
             $task->created_at = $value['created_at'];
+            $task->update_by_admin = $value['update_by_admin'];
             $tasks[] = $task;
         }
 
@@ -69,5 +71,29 @@ class Task extends Model
         $stmt = $db->query("SELECT COUNT(*) FROM " . static::getTableName() . ";");
         $value = $stmt->fetch();
         return $value[0];
+    }
+
+    public static function getById(int $id = 0): ?Task
+    {
+        $db = Database::getInstans();
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE id = ?;";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+        $result = $stmt->fetch();
+
+        $task = new Task();
+        if ($result){
+            $task->id = $result['id'];
+            $task->user = $result['user'];
+            $task->email = $result['email'];
+            $task->text = $result['text'];
+            $task->status = $result['status'];
+            $task->created_at = $result['created_at'];
+        }else{
+            return null;
+        }
+
+        return $task;
     }
 }

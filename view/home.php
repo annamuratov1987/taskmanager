@@ -20,11 +20,11 @@
         <form action="/task/create" method="post">
             <div class="row">
                 <div class="col">
-                    <textarea name="text" class="form-control h-100" placeholder="Текст задача"></textarea>
+                    <textarea name="text" class="form-control h-100" placeholder="Текст задача" required></textarea>
                 </div>
                 <div class="col">
-                    <input type="text" name="user" class="form-control mb-2" placeholder="Имя" aria-label="Имя">
-                    <input type="text" name="email" class="form-control mb-2" placeholder="E-mail" aria-label="E-mail">
+                    <input type="text" name="user" class="form-control mb-2" placeholder="Имя" aria-label="Имя" required>
+                    <input type="text" name="email" class="form-control mb-2" placeholder="E-mail" aria-label="E-mail" required>
                     <input type="submit" name="submit" class="form-control w-50 float-end">
                 </div>
             </div>
@@ -68,12 +68,23 @@
         <? foreach ($data['tasks'] as $task):?>
             <div class="card mt-3">
                 <div class="card-body">
-                    <h5 class="card-title"><?=$task->user?></h5>
+                    <h5 class="card-title"><?=$task->user?><span class="fs-6"> (<?=$task->email?>)</span></h5>
                     <p class="card-text"><?=$task->text?></p>
                 </div>
                 <div class="card-footer text-muted">
                     <span class="">Время создания: <?= $task->created_at?></span>
-                    <span class="badge float-end <?= $task->status == "closed" ? "bg-success" : "bg-danger"?>">Статус: <?= $task->status?></span>
+                    <span class="badge bg-light float-end">
+                        <a href="/task/update?id=<?=$task->id?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                        </a>
+                    </span>
+                    <span class="badge float-end <?= $task->status == "done" ? "bg-success" : "bg-danger"?>"><?= $task->status=="done"?"выполнено":"не выполнено"?></span>
+                    <?if($task->update_by_admin):?>
+                        <span class="badge bg-info float-end me-5">отредактировано администратором</span>
+                    <?endif;?>
                 </div>
             </div>
         <?endforeach;?>

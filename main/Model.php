@@ -10,6 +10,8 @@ abstract class Model
 
     abstract static function getTableName():string;
 
+    abstract public function validateData():bool;
+
     public function __set($name, $value)
     {
         $this->fields[$name] = $value;
@@ -66,6 +68,11 @@ abstract class Model
 
     public function save()
     {
+        if (!$this->validateData())
+        {
+            return false;
+        }
+
         if (isset($this->fields['id']) && !is_null($this->fields['id'])){
             return $this->update();
         }else{

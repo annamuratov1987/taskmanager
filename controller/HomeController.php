@@ -51,6 +51,11 @@ class HomeController extends Controller
 
         $data = [];
 
+        $data['user'] = User::getAuthUser();
+        if (!is_null($data['user'])){
+            header('Location: /');
+        }
+
         if ($_SERVER['REQUEST_METHOD'] == "POST"){
             $user = new User();
             $user->username = $_POST['user'];

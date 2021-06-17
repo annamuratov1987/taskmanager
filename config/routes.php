@@ -1,7 +1,9 @@
 <?php
 return [
     "/" => ["controller\HomeController","index"],
-    "/task/create" => ["controller\TaskController","create"],
     "/login" => ["controller\HomeController","login"],
-    "/logout" => ["controller\HomeController","logout"]
+    "/logout" => ["controller\HomeController","logout"],
+
+    "/task/create" => ["controller\TaskController","create"],
+    "/task/update" => ["controller\TaskController","update"]
 ];

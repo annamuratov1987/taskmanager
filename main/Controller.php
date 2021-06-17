@@ -7,7 +7,7 @@ namespace main;
 class Controller
 {
     public function pageNotFound():void{
-        echo "404 Page not found!";
+        $this->render("404", []);
     }
 
     public function render(string $template, array $data = []):void{

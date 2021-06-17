@@ -1,7 +1,7 @@
 <?php
 /** @var TYPE_NAME $data */
 ?>
-
+<h3>Вход</h3>
 <form action="/login" method="post" class="row">
     <div class="col-6 m-auto mt-5">
         <?if(isset($data['error'])):?>
